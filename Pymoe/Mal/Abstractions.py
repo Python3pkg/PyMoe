@@ -113,6 +113,17 @@ NT_TYPEDATA = namedtuple('NT_TYPEDATA', ['list', 'stats'])
 #: Abstraction for user anime and manga stats.
 NT_STATS = namedtuple('NT_TYPESTATS', ['completed', 'onhold', 'dropped', 'planned', 'watching', 'reading', 'days'])
 
+#: Abstraction for a bundled list of anime. Dropped and Plan to Watch are reported as posssible values in the API, though I'm not sure how that works outside of user lists.
+NT_ANIME_LIST = namedtuple('NT_ANIME_LIST', ['airing', 'finished', 'unaired', 'dropped', 'planned'])
+
+#: Abstraction for a bundled list of manga. Dropped and Plan to read are reported as posssible values in the API, though I'm not sure how that works outside of user lists.
+NT_MANGA_LIST = namedtuple('NT_MANGA_LIST', ['publishing', 'finished', 'unpublished', 'dropped', 'planned'])
+
+#: Abstraction for a bundled list of anime with some customizations for a user list.
+NT_AUSER_LIST = namedtuple('NT_AUSER_LIST', ['watching', 'completed', 'held', 'dropped', 'planned', 'unset'])
+
+#: Abstraction for a bundled list of manga with some customizations for a user list.
+NT_MUSER_LIST = namedtuple('NT_MUSER_LIST', ['reading', 'completed', 'held', 'dropped', 'planned', 'unset'])
 
 #: Status int to Name
 STATUS_INTS = {
