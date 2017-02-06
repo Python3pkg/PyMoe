@@ -265,8 +265,8 @@ class User:
 
         :param str id: User ID
         :param str name: User Name
-        :param NT_TYPEDATA anime: A namedtuple containing a list and stats attribute. List contains a list of :class:`Pymoe.Mal.Objects.Anime` objects and stats contains anime stats for the user.
-        :param NT_TYPEDATA manga: A namedtuple containing a list and stats attribute. List contains a list of :class:`Pymoe.Mal.Objects.Manga` objects and stats contains manga stats for the user.
+        :param NT_TYPEDATA anime: A namedtuple containing a list and stats attribute. List contains a NT_AUSER_LIST object and stats contains anime stats for the user.
+        :param NT_TYPEDATA manga: A namedtuple containing a list and stats attribute. List contains a NT_MUSER_LIST object and stats contains manga stats for the user.
         """
         self.id = kwargs.get('uid')
         self.name = kwargs.get('name')

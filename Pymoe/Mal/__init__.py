@@ -140,7 +140,6 @@ class Mal:
         """
         if isinstance(data, Anime):
             xmlstr = data.to_xml()
-            print(self.apiurl+"animelist/add/{}.xml".format(data.id))
             r = requests.get(self.apiurl+"animelist/add/{}.xml".format(data.id),
                              params={'data': xmlstr},
                              auth=HTTPBasicAuth(self._username, self._password),
