@@ -111,7 +111,10 @@ class Datamask(bytearray):
 
     def set_mask(self, thing):
         if isinstance(thing, IntEnum):
-            self.flip_bit(thing)
+            if self.mask_type == Datatype.vn and not isinstance(thing, Vn):
+                raise SyntaxError("You're attempting to modify a VN's datamask with the wrong mask type. Please use a Vn mask.")
+            else:
+                self.flip_bit(thing)
         else:
             raise SyntaxError("This expects an IntEnum. Please use one of the IntEnums from the library.")
 
