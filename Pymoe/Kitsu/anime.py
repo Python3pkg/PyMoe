@@ -1,14 +1,16 @@
-import requests
+import aiohttp
 from ..errors import *
 from .helpers import SearchWrapper
 
 
 class KitsuAnime:
-    def __init__(self, api, header):
+    def __init__(self, loop, session, api, header):
+        self.eloop = loop
         self.apiurl = api
         self.header = header
+        self.session = session
 
-    def get(self, aid):
+    async def get(self, aid):
         """
         Get anime information by id.
 
@@ -17,17 +19,17 @@ class KitsuAnime:
         :rtype: Dictionary or None
         :raises: :class:`Pymoe.errors.ServerError`
         """
-        r = requests.get(self.apiurl + "/anime/{}".format(aid), headers=self.header)
+        async with self.session() as session:
+            async with session.get(self.apiurl + "/anime/{}".format(aid), headers=self.header) as r:
+                if r.status != 200:
+                    if r.status == 404:
+                        return None
+                    else:
+                        raise ServerError
+            
+                return await r.json()
 
-        if r.status_code != 200:
-            if r.status_code == 404:
-                return None
-            else:
-                raise ServerError
-
-        return r.json()
-
-    def search(self, term):
+    async def search(self, term):
         """
         Search for anime by term.
 
@@ -35,14 +37,14 @@ class KitsuAnime:
         :return: The results as a SearchWrapper iterator.
         :rtype: SearchWrapper
         """
-        r = requests.get(self.apiurl + "/anime", params={"filter[text]": term}, headers=self.header)
-        
-        if r.status_code != 200:
-            raise ServerError
-        
-        jsd = r.json()
-
-        if jsd['meta']['count']:
-            return SearchWrapper(jsd['data'], jsd['links']['next'] if 'next' in jsd['links'] else None, self.header)
-        else:
-            return None
+        async with self.session() as session:
+            async with session.get(self.apiurl + "/anime", params={"filter[text]": term}, headers=self.header) as r:
+                if r.status != 200:
+                    raise ServerError
+                    
+                jsd = await r.json()
+                
+                if jsd['meta']['count']:
+                    return SearchWrapper(jsd['data'], jsd['links']['next'] if 'next' in jsd['links'] else None, self.header)
+                else: 
+                    return None

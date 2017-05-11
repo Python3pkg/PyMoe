@@ -14,9 +14,9 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries'
     ],
     keywords="Anime Manga LN VN VNDB Anilist Kitsu AniDB MyAnimeList MAL Bakatsuki",
-    install_requires=['requests', 'bs4', 'ujson']
+    install_requires=['aiohttp']
 )
